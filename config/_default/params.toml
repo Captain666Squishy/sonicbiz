@@ -1,6 +1,6 @@
 colorScheme = "slate"
 defaultAppearance = "dark"
-autoSwitchAppearance = true
+autoSwitchAppearance = false
 enableA11y = false
 enableSearch = false
 enableCodeCopy = false
@@ -33,14 +33,14 @@ showAppearanceSwitcher = true
 showScrollToTop = true
 
 [homepage]
-layout = "profile"
-showRecent = false
+layout = "card"
+showRecent = true 
 showRecentItems = 5
 showMoreLink = false
 showMoreLinkDest = "/posts/"
 cardView = "4"
 cardViewScreenWidth = false
-layoutBackgroundBlur = false
+layoutBackgroundBlur = true
 disableHeroImageFilter = false
 
 [article]
@@ -81,7 +81,7 @@ showTableOfContents = false
 showCards = false
 orderByWeight = false
 groupByYear = true
-cardView = false
+cardView = true
 cardViewScreenWidth = false
 constrainItemsWidth = false
 

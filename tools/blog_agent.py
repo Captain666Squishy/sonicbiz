@@ -7,9 +7,7 @@ import argparse
 import ast
 import datetime as dt
 import math
-import os
 import re
-import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Sequence, Tuple
@@ -34,6 +32,8 @@ KEY_PRIORITY = [
 
 MARKDOWN_EXTENSIONS = {".md", ".markdown", ".mdx"}
 FRONT_MATTER_DELIM = "+++"
+LINK_PATTERN = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
+SCHEME_PATTERN = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.\-]*://")
 
 
 @dataclass
@@ -41,6 +41,12 @@ class MarkdownDocument:
     front_matter: Dict[str, object]
     body: str
     has_front_matter: bool
+
+
+@dataclass
+class LinkRef:
+    target: str
+    line: int
 
 
 def slugify(value: str) -> str:
@@ -392,12 +398,55 @@ def format_markdown_text(text: str) -> Tuple[str, bool]:
     return formatted, changed
 
 
+def extract_markdown_links(text: str) -> List[LinkRef]:
+    refs: List[LinkRef] = []
+    for match in LINK_PATTERN.finditer(text):
+        raw_target = match.group(1).strip()
+        line = text.count("\n", 0, match.start()) + 1
+        refs.append(LinkRef(target=raw_target, line=line))
+    return refs
+
+
+def normalize_link_target(raw: str) -> str:
+    target = raw.strip()
+    if not target:
+        return ""
+    if target.startswith("<") and target.endswith(">"):
+        target = target[1:-1].strip()
+    for sep in ('" ', "' "):
+        idx = target.find(sep)
+        if idx != -1:
+            target = target[:idx].strip()
+            break
+    target = target.split("#", 1)[0]
+    target = target.split("?", 1)[0]
+    return target.strip()
+
+
+def is_internal_link(target: str) -> bool:
+    if not target:
+        return False
+    lower = target.lower()
+    if target.startswith("#"):
+        return False
+    if target.startswith("{{"):
+        return False
+    if SCHEME_PATTERN.match(target):
+        return False
+    if lower.startswith(("mailto:", "tel:", "javascript:", "data:")):
+        return False
+    return True
+
+
 class BlogAgent:
     def __init__(self, repo_root: Path) -> None:
         self.root = repo_root
         self.content_dir = self.root / "content"
         self.layouts_dir = self.root / "layouts"
         self.themes_dir = self.root / "themes"
+        self.static_dir = self.root / "static"
+        self.assets_dir = self.root / "assets"
+        self.resources_dir = self.root / "resources"
 
     # --- new post ---------------------------------------------------------
     def create_post(self, args: argparse.Namespace) -> Path:
@@ -570,6 +619,101 @@ class BlogAgent:
                 candidates.append((name, label, description))
         return candidates
 
+    # --- audits ----------------------------------------------------------
+    def audit(self, args: argparse.Namespace) -> None:
+        target = Path(args.target)
+        files = list(iter_markdown_files(target))
+        if not files:
+            raise SystemExit(f"No markdown files found in {target}.")
+
+        missing_front_matter: List[Path] = []
+        broken_links: List[Tuple[Path, int, str]] = []
+
+        for path in files:
+            doc = load_markdown(path)
+            if not doc.has_front_matter:
+                missing_front_matter.append(path)
+            broken = self._find_broken_links(path, doc.body)
+            for line, link in broken:
+                broken_links.append((path, line, link))
+
+        if missing_front_matter:
+            print("Missing front matter detected:")
+            for path in missing_front_matter:
+                print(f"- {path}")
+            print("")
+        else:
+            print("All markdown files contain front matter.\n")
+
+        if broken_links:
+            print("Broken internal links:")
+            for file_path, line, link in broken_links:
+                print(f"- {file_path}:{line} -> {link}")
+        else:
+            print("No broken internal links found.")
+
+        if missing_front_matter or broken_links:
+            raise SystemExit(1)
+
+    def _find_broken_links(self, path: Path, body: str) -> List[Tuple[int, str]]:
+        issues: List[Tuple[int, str]] = []
+        for ref in extract_markdown_links(body):
+            normalized = normalize_link_target(ref.target)
+            if not is_internal_link(normalized):
+                continue
+            if not normalized:
+                continue
+            if not self._link_target_exists(normalized, path):
+                issues.append((ref.line, normalized))
+        return issues
+
+    def _link_target_exists(self, target: str, doc_path: Path) -> bool:
+        clean = target.replace("%20", " ").strip()
+        if not clean:
+            return True
+
+        if clean.startswith("/"):
+            rel = clean.lstrip("/")
+            return self._path_exists_from_roots(rel)
+
+        doc_dir = doc_path.parent
+        relative_candidate = (doc_dir / clean).resolve()
+        if self._path_exists_absolute(relative_candidate):
+            return True
+
+        repo_candidate = (self.root / clean).resolve()
+        if self._path_exists_absolute(repo_candidate):
+            return True
+
+        content_candidate = (self.content_dir / clean).resolve()
+        if self._path_exists_absolute(content_candidate):
+            return True
+
+        return False
+
+    def _path_exists_from_roots(self, relative: str) -> bool:
+        rel = relative.strip("/")
+        if not rel:
+            return True
+        candidates = [
+            self.content_dir / rel,
+            self.static_dir / rel,
+            self.assets_dir / rel,
+            self.resources_dir / rel,
+        ]
+        return any(self._path_exists_absolute(path) for path in candidates)
+
+    @staticmethod
+    def _path_exists_absolute(path: Path) -> bool:
+        if path.exists():
+            return True
+        if path.suffix == "":
+            if (path / "index.md").exists() or (path / "_index.md").exists():
+                return True
+            if path.with_suffix(".md").exists():
+                return True
+        return False
+
 
 def describe_layout(rel_path: Path) -> str:
     text = rel_path.as_posix()
@@ -687,6 +831,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="Always refresh the lastmod timestamp.",
     )
 
+    audit_parser = subparsers.add_parser(
+        "audit", help="Check markdown for missing front matter and broken internal links."
+    )
+    audit_parser.add_argument(
+        "target",
+        nargs="?",
+        default="content",
+        help="File or directory to audit (default: content).",
+    )
+
     return parser
 
 
@@ -708,6 +862,8 @@ def main(argv: Optional[Sequence[str]] = None) -> None:
         agent.suggest_layouts(args)
     elif args.command == "metadata":
         agent.update_metadata(args)
+    elif args.command == "audit":
+        agent.audit(args)
     else:  # pragma: no cover
         parser.error("Unknown command.")
 

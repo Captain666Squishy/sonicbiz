@@ -1,3 +1,3 @@
 User-agent: *
-Disallow: /
-Sitemap: http://localhost:50150/sonicbiz/sitemap.xml
+Allow: /
+Sitemap: https://captain666squishy.github.io/sonicbiz/sitemap.xml

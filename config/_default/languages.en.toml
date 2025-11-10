@@ -12,3 +12,5 @@ dateFormat = "2 January 2006"
 
 ["params.author"]
 name = "Sonic Business"
+headline = "Punk and counterculture happenings after Sideway based in Canberra, ACT."
+bio = "Add bio in config languages"

@@ -17,5 +17,6 @@ python3 tools/blog_agent.py --help
 - Clean Markdown: `python3 tools/blog_agent.py format content/blog --check` (omit `--check` to write changes)
 - Refresh metadata: `python3 tools/blog_agent.py metadata content/blog --fill-summary --set-lastmod`
 - Explore layouts: `python3 tools/blog_agent.py layouts --section blog`
+- Audit content: `python3 tools/blog_agent.py audit` (find missing front matter and broken internal links)
 
 The agent works inside the repo root by default; use `--repo /path/to/site` to target another Hugo project.

@@ -1,0 +1,130 @@
+:root {
+  --shell-max-width: 68rem;
+  --body-font: "Inter", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --body-text: #1f2933;
+  --muted-text: #5f6c7b;
+  --card-bg: #ffffff;
+  --card-radius: 1.25rem;
+  --card-shadow: 0 20px 35px rgba(15, 23, 42, 0.12);
+  --card-shadow-hover: 0 30px 45px rgba(15, 23, 42, 0.18);
+}
+
+html.dark {
+  --body-text: #e2e8f0;
+  --muted-text: #aeb9cc;
+  --card-bg: rgba(17, 24, 39, 0.9);
+  --card-shadow: 0 25px 40px rgba(0, 0, 0, 0.45);
+  --card-shadow-hover: 0 35px 65px rgba(0, 0, 0, 0.6);
+}
+
+html {
+  font-family: var(--body-font);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: inherit;
+  color: var(--body-text);
+  line-height: 1.7;
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+}
+
+body p {
+  margin-block: 1rem;
+  color: inherit;
+}
+
+.site-shell {
+  width: min(var(--shell-max-width), 100%);
+  margin-inline: auto;
+  padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1rem, 5vw, 3rem);
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 1rem;
+  }
+  .site-shell {
+    padding: 1.5rem 1rem 2rem;
+  }
+}
+
+.card-grid {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
+  gap: clamp(1rem, 2.5vw, 1.75rem);
+}
+
+.post-card {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: var(--card-radius);
+  background-color: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+html.dark .post-card {
+  border-color: rgba(226, 232, 240, 0.08);
+}
+
+.post-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-shadow-hover);
+  border-color: rgba(99, 102, 241, 0.25);
+}
+
+.post-card .thumbnail_card {
+  padding-top: 58%;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(236, 72, 153, 0.15));
+}
+
+.post-card .thumbnail_card img {
+  border-top-left-radius: var(--card-radius);
+  border-top-right-radius: var(--card-radius);
+}
+
+.post-card header h2 {
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.post-card .text-sm {
+  color: var(--muted-text);
+}
+
+.post-card .px-6.pt-4.pb-2 {
+  padding-bottom: 1.5rem;
+}
+
+.prose {
+  max-width: 65ch;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  font-family: var(--body-font);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.prose a {
+  text-underline-offset: 0.25em;
+}
+
+@media (max-width: 480px) {
+  .post-card {
+    border-radius: 1rem;
+  }
+  .post-card .px-6.py-4 {
+    padding: 1.25rem;
+  }
+}
