@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Authors on Sonic Business Ltd</title>
-    <link>http://localhost:1313/sonicbiz/authors/</link>
+    <link>http://localhost:50150/sonicbiz/authors/</link>
     <description>Recent content in Authors on Sonic Business Ltd</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>© 2025 Sonic Business</copyright>
-    <atom:link href="http://localhost:1313/sonicbiz/authors/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:50150/sonicbiz/authors/index.xml" rel="self" type="application/rss+xml" />
     
   </channel>
 </rss>

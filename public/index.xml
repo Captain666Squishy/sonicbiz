@@ -2,21 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Sonic Business Ltd</title>
-    <link>http://localhost:1313/sonicbiz/</link>
+    <link>http://localhost:50150/sonicbiz/</link>
     <description>Recent content on Sonic Business Ltd</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>© 2025 Sonic Business</copyright>
-    <atom:link href="http://localhost:1313/sonicbiz/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 10 Nov 2025 10:24:01 +0000</lastBuildDate><atom:link href="http://localhost:50150/sonicbiz/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Title</title>
+      <link>http://localhost:50150/sonicbiz/blog/title/</link>
+      <pubDate>Mon, 10 Nov 2025 10:24:01 +0000</pubDate>
+      
+      <guid>http://localhost:50150/sonicbiz/blog/title/</guid>
+      <description>Hello there</description>
+      
+    </item>
     
     <item>
       <title>First Post</title>
-      <link>http://localhost:1313/sonicbiz/blog/first-post/</link>
+      <link>http://localhost:50150/sonicbiz/blog/first-post/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/sonicbiz/blog/first-post/</guid>
+      <guid>http://localhost:50150/sonicbiz/blog/first-post/</guid>
       <description>Launching the Sonic Business label site — first release coming soon.</description>
-      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/sonicbiz/blog/first-post/cover.jpg" />
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:50150/sonicbiz/blog/first-post/cover.jpg" />
     </item>
     
   </channel>
