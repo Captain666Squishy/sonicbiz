@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://captain666squishy.github.io/sonicbiz/sitemap.xml

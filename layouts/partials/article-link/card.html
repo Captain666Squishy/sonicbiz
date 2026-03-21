@@ -23,7 +23,7 @@
 {{ if not .Params.hideFeatureImage }}
   {{/* frontmatter */}}
   {{ with $page }}
-    {{ with .Params.featureimage }}
+    {{ with or .Params.featureimage .Params.image }}
       {{ if or (strings.HasPrefix . "http:") (strings.HasPrefix . "https:") }}
         {{ if site.Params.hotlinkFeatureImage }}
           {{ $featuredURL = . }}
@@ -73,7 +73,7 @@
     <div class="flex-none relative overflow-hidden thumbnail_card">
       <img
         src="{{ . }}"
-        alt="{{ $page.Title | plainify }}"
+        alt="{{ $page.Params.alt | default ($page.Title | plainify) }}"
         loading="lazy"
         decoding="async"
         class="not-prose absolute inset-0 w-full h-full object-cover">

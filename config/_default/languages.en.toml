@@ -10,7 +10,7 @@ isoCode = "en"
 rtl = false
 dateFormat = "2 January 2006"
 
-["params.author"]
+[params.author]
 name = "Sonic Business"
-headline = "Punk and counterculture happenings after Sideway based in Canberra, ACT."
-bio = "Add bio in config languages"
+headline = "DIY label, newsletter, and show dispatches from Canberra."
+bio = "Sonic Business Ltd documents releases, local shows, and writing from the wider underground around Canberra."

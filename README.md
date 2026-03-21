@@ -1,6 +1,31 @@
 # sonicbiz
 Sonic Business Ltd Hugo Website.
 
+## Local workflow
+
+Initialize the Blowfish theme submodule before running the site:
+
+```bash
+git submodule update --init --recursive
+```
+
+Run the local development server:
+
+```bash
+hugo server
+```
+
+Deploy by pushing to `main`. GitHub Actions builds the site and publishes GitHub Pages from the generated artifact, so `public/` and `resources/_gen/` are not source-of-truth files.
+
+## Custom layouts
+
+This repo intentionally overrides a small part of Blowfish:
+
+- `layouts/index.html` for the branded homepage
+- `layouts/_default/list.html` for the blog archive and category tabs
+- `layouts/partials/article-link/card.html` for reusable article cards
+- `assets/css/custom.css` for the site-specific visual layer
+
 ## Blog agent
 
 Use `tools/blog_agent.py` to automate common Hugo blogging tasks (Python 3.9+).

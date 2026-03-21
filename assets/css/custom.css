@@ -1,5 +1,5 @@
 :root {
-  --shell-max-width: 68rem;
+  --shell-max-width: 74rem;
   --body-font: "Inter", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --body-text: #1f2933;
   --muted-text: #5f6c7b;
@@ -7,6 +7,10 @@
   --card-radius: 1.25rem;
   --card-shadow: 0 20px 35px rgba(15, 23, 42, 0.12);
   --card-shadow-hover: 0 30px 45px rgba(15, 23, 42, 0.18);
+  --line-soft: rgba(15, 23, 42, 0.1);
+  --home-surface: rgba(255, 255, 255, 0.78);
+  --home-accent: #d946ef;
+  --home-accent-soft: rgba(217, 70, 239, 0.12);
 }
 
 html.dark {
@@ -15,6 +19,9 @@ html.dark {
   --card-bg: rgba(17, 24, 39, 0.9);
   --card-shadow: 0 25px 40px rgba(0, 0, 0, 0.45);
   --card-shadow-hover: 0 35px 65px rgba(0, 0, 0, 0.6);
+  --line-soft: rgba(226, 232, 240, 0.08);
+  --home-surface: rgba(15, 23, 42, 0.76);
+  --home-accent-soft: rgba(217, 70, 239, 0.18);
 }
 
 html {
@@ -29,6 +36,9 @@ body {
   line-height: 1.7;
   font-size: 1.05rem;
   letter-spacing: 0.01em;
+  background:
+    radial-gradient(circle at top left, rgba(217, 70, 239, 0.13), transparent 30%),
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.1), transparent 28%);
 }
 
 body p {
@@ -42,13 +52,8 @@ body p {
   padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1rem, 5vw, 3rem);
 }
 
-@media (max-width: 640px) {
-  body {
-    font-size: 1rem;
-  }
-  .site-shell {
-    padding: 1.5rem 1rem 2rem;
-  }
+.site-shell > * + * {
+  margin-top: clamp(2rem, 4vw, 3rem);
 }
 
 .card-grid {
@@ -59,6 +64,197 @@ body p {
 .blog-card-grid {
   align-items: stretch;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+}
+
+.home-hero,
+.home-feature-strip {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line-soft);
+  border-radius: 1.75rem;
+  background: var(--home-surface);
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(10px);
+}
+
+.home-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.8fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  padding: clamp(1.5rem, 5vw, 3.5rem);
+}
+
+.home-hero::after,
+.home-feature-strip::after {
+  content: "";
+  position: absolute;
+  inset: auto -10% -30% auto;
+  width: 18rem;
+  height: 18rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(217, 70, 239, 0.18), transparent 68%);
+  pointer-events: none;
+}
+
+.home-hero__content h1,
+.home-feature-strip h2,
+.home-section-heading h2,
+.home-pillar h2 {
+  margin: 0;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.home-hero__content h1 {
+  font-size: clamp(2.8rem, 8vw, 5.6rem);
+  max-width: 10ch;
+}
+
+.home-eyebrow,
+.home-pillar__kicker,
+.home-signal-card__label {
+  margin: 0 0 0.75rem;
+  color: var(--home-accent);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.home-lead,
+.home-feature-strip p,
+.home-pillar p {
+  margin: 0;
+  color: var(--muted-text);
+  font-size: 1.02rem;
+}
+
+.home-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 1.5rem;
+}
+
+.home-button,
+.home-text-link {
+  text-decoration: none;
+}
+
+.home-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  padding: 0.85rem 1.15rem;
+  color: var(--body-text);
+  background: rgba(255, 255, 255, 0.56);
+  font-weight: 700;
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+html.dark .home-button {
+  background: rgba(15, 23, 42, 0.58);
+}
+
+.home-button:hover,
+.home-button:focus-visible,
+.home-text-link:hover,
+.home-text-link:focus-visible {
+  transform: translateY(-1px);
+}
+
+.home-button--primary {
+  border-color: rgba(217, 70, 239, 0.3);
+  background: linear-gradient(135deg, rgba(217, 70, 239, 0.18), rgba(34, 197, 94, 0.12));
+}
+
+.home-hero__art {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.home-logo-mark,
+.home-signal-card,
+.home-pillar {
+  border: 1px solid var(--line-soft);
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+html.dark .home-logo-mark,
+html.dark .home-signal-card,
+html.dark .home-pillar {
+  background: rgba(15, 23, 42, 0.56);
+}
+
+.home-logo-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 18rem;
+  padding: 1.5rem;
+}
+
+.home-logo-mark img {
+  width: min(100%, 18rem);
+  border-radius: 1rem;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.2);
+}
+
+.home-signal-card {
+  padding: 1.35rem;
+}
+
+.home-signal-card ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--body-text);
+}
+
+.home-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.home-pillar {
+  padding: 1.4rem;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+}
+
+.home-pillar h2,
+.home-section-heading h2,
+.home-feature-strip h2 {
+  font-size: clamp(1.55rem, 3vw, 2.25rem);
+}
+
+.home-feature-strip {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 1.25rem;
+  align-items: start;
+  padding: clamp(1.4rem, 4vw, 2.25rem);
+}
+
+.home-latest {
+  display: grid;
+  gap: 1rem;
+}
+
+.home-section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.home-text-link {
+  color: var(--home-accent);
+  font-weight: 700;
 }
 
 .blog-filter-shell {
@@ -190,18 +386,51 @@ html.dark .post-card-pill {
   text-underline-offset: 0.25em;
 }
 
+@media (max-width: 640px) {
+  body {
+    font-size: 1rem;
+  }
+
+  .site-shell {
+    padding: 1.5rem 1rem 2rem;
+  }
+
+  .home-hero,
+  .home-feature-strip,
+  .home-pillars {
+    grid-template-columns: 1fr;
+  }
+
+  .home-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .home-hero__content h1 {
+    max-width: none;
+  }
+}
+
 @media (max-width: 480px) {
   .post-card {
     border-radius: 1rem;
   }
+
   .post-card .px-6.py-4 {
     padding: 1.25rem;
   }
+
   .blog-filter-tabs {
     gap: 0.5rem;
   }
-  .blog-filter-tab {
+
+  .blog-filter-tab,
+  .home-button {
     width: 100%;
     justify-content: center;
+  }
+
+  .home-actions {
+    flex-direction: column;
   }
 }

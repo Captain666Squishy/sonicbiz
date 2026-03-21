@@ -1,34 +1,76 @@
 {{ define "main" }}
-  <header>
-    <div class="logo">
-      <img src="{{ "images/logo_black.png" | relURL }}" alt="Sonic Business Ltd logo">
+  {{ $posts := first 4 (where .Site.RegularPages.ByDate.Reverse "Section" "blog") }}
+  {{ $blogPage := site.GetPage "/blog" }}
+
+  <section class="home-hero">
+    <div class="home-hero__content">
+      <p class="home-eyebrow">Sonic Business Ltd</p>
+      <h1>Independent releases, show notes, and writing from the Canberra underground.</h1>
+      <p class="home-lead">
+        Sonic Business is a DIY label and publishing space for release drops, newsletters, gig updates, and the wider scene around them.
+      </p>
+      <div class="home-actions">
+        <a class="home-button home-button--primary" href="{{ $blogPage.RelPermalink }}">Browse the blog</a>
+        <a class="home-button" href="#latest-posts">Latest posts</a>
+      </div>
     </div>
-    <nav>
-      <a href="{{ "/" | relLangURL }}">home</a> ·
-      <a href="{{ "/blog/" | relLangURL }}">blog</a>
-    </nav>
-  </header>
 
-  <main>
-    <section class="intro">
-      <p>Sonic Business Ltd is a DIY label & collective based in Australia.<br>
-         Independent music, shows, and writing.</p>
-    </section>
+    <div class="home-hero__art">
+      <div class="home-logo-mark">
+        <img src="{{ "images/logo.jpg" | relURL }}" alt="Sonic Business Ltd logo">
+      </div>
+      <div class="home-signal-card">
+        <p class="home-signal-card__label">Publishing lanes</p>
+        <ul>
+          <li>Releases</li>
+          <li>Newsletters</li>
+          <li>Shows</li>
+          <li>Misc writing</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-    <section class="latest-posts">
-      <h2>Latest Posts</h2>
-      {{ range first 4 (where .Site.RegularPages "Section" "blog") }}
-        <div class="post-card">
-          {{ with .Params.image }}<img src="{{ . }}" alt="">{{ end }}
-          <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-          <p>{{ .Date.Format "Jan 2, 2006" }}</p>
-          <p>{{ .Summary }}</p>
-        </div>
+  <section class="home-pillars">
+    <article class="home-pillar">
+      <p class="home-pillar__kicker">Releases</p>
+      <h2>New music and project updates.</h2>
+      <p>Track launches, notes, and release context in one stable archive instead of scattered posts.</p>
+    </article>
+    <article class="home-pillar">
+      <p class="home-pillar__kicker">Shows</p>
+      <h2>Live notes from rooms, bills, and scenes.</h2>
+      <p>Keep short records of lineups, nights, and details that usually disappear once the posters come down.</p>
+    </article>
+    <article class="home-pillar">
+      <p class="home-pillar__kicker">Writing</p>
+      <h2>Newsletters and miscellaneous dispatches.</h2>
+      <p>Make room for editorial notes, recommendations, and scene writing that sits outside strict release coverage.</p>
+    </article>
+  </section>
+
+  <section class="home-feature-strip">
+    <div>
+      <p class="home-eyebrow">Why this site exists</p>
+      <h2>A durable archive for things worth keeping.</h2>
+    </div>
+    <p>
+      Social posts disappear. This site is where release information, show notes, and scene memory stay readable, searchable, and easy to return to later.
+    </p>
+  </section>
+
+  <section class="home-latest" id="latest-posts">
+    <div class="home-section-heading">
+      <div>
+        <p class="home-eyebrow">Latest</p>
+        <h2>Recent posts</h2>
+      </div>
+      <a class="home-text-link" href="{{ $blogPage.RelPermalink }}">See the full archive</a>
+    </div>
+    <section class="card-grid blog-card-grid w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+      {{ range $posts }}
+        {{ partial "article-link/card.html" . }}
       {{ end }}
     </section>
-  </main>
-
-  <footer>
-    <p>© {{ now.Format "2006" }} Sonic Business Ltd · DIY label from Australia</p>
-  </footer>
+  </section>
 {{ end }}
