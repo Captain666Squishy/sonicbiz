@@ -46,12 +46,6 @@ body p {
   color: inherit;
 }
 
-.main-menu {
-  width: min(var(--shell-max-width), 100%);
-  margin-inline: auto;
-  padding-inline: clamp(1rem, 4vw, 2.5rem);
-}
-
 .site-shell {
   width: min(var(--shell-max-width), 100%);
   margin-inline: auto;
