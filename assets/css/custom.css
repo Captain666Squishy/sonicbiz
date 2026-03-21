@@ -4,7 +4,7 @@
   --body-text: #1f2933;
   --muted-text: #5f6c7b;
   --card-bg: #ffffff;
-  --card-radius: 1.25rem;
+  --card-radius: 0.2rem;
   --card-shadow: 0 20px 35px rgba(15, 23, 42, 0.12);
   --card-shadow-hover: 0 30px 45px rgba(15, 23, 42, 0.18);
   --line-soft: rgba(15, 23, 42, 0.1);
@@ -71,7 +71,7 @@ body p {
   position: relative;
   overflow: hidden;
   border: 1px solid var(--line-soft);
-  border-radius: 1.75rem;
+  border-radius: 0.28rem;
   background: var(--home-surface);
   box-shadow: var(--card-shadow);
   backdrop-filter: blur(10px);
@@ -91,7 +91,7 @@ body p {
   inset: auto -10% -30% auto;
   width: 18rem;
   height: 18rem;
-  border-radius: 999px;
+  border-radius: 0.2rem;
   background: radial-gradient(circle, rgba(217, 70, 239, 0.18), transparent 68%);
   pointer-events: none;
 }
@@ -180,7 +180,7 @@ html.dark .home-button {
 .home-signal-card,
 .home-pillar {
   border: 1px solid var(--line-soft);
-  border-radius: 1.5rem;
+  border-radius: 0.24rem;
   background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(8px);
 }
@@ -201,7 +201,7 @@ html.dark .home-pillar {
 
 .home-logo-mark img {
   width: min(100%, 18rem);
-  border-radius: 1rem;
+  border-radius: 0.18rem;
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.2);
 }
 
@@ -270,7 +270,7 @@ html.dark .home-pillar {
 .blog-filter-tab {
   appearance: none;
   border: 1px solid rgba(15, 23, 42, 0.12);
-  border-radius: 999px;
+  border-radius: 0.2rem;
   background: rgba(255, 255, 255, 0.82);
   color: var(--muted-text);
   cursor: pointer;
@@ -345,7 +345,7 @@ html.dark .post-card {
 .post-card-pill {
   display: inline-flex;
   align-items: center;
-  border-radius: 999px;
+  border-radius: 0.2rem;
   background: rgba(99, 102, 241, 0.12);
   color: #4338ca;
   font-size: 0.72rem;
@@ -413,7 +413,7 @@ html.dark .post-card-pill {
 
 @media (max-width: 480px) {
   .post-card {
-    border-radius: 1rem;
+    border-radius: 0.18rem;
   }
 
   .post-card .px-6.py-4 {
