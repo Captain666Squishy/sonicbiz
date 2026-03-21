@@ -1,65 +1,107 @@
 {{ define "main" }}
-  {{ $posts := first 3 (where .Site.RegularPages.ByDate.Reverse "Section" "blog") }}
+  {{ $posts := where .Site.RegularPages.ByDate.Reverse "Section" "blog" }}
   {{ $blogPage := site.GetPage "/blog" }}
-  {{ $releasePage := site.GetPage "/blog/first-post" }}
-  {{ $releaseCover := "" }}
-  {{ with $releasePage }}
-    {{ with .Resources.GetMatch "*cover*" }}
-      {{ $releaseCover = .RelPermalink }}
+  {{ $featured := "" }}
+  {{ if gt (len $posts) 0 }}
+    {{ $featured = index $posts 0 }}
+  {{ end }}
+  {{ $featuredCover := "" }}
+  {{ with $featured }}
+    {{ with (.Resources.ByType "image").GetMatch "*cover*" }}
+      {{ $featuredCover = (.Resize "1200x").RelPermalink }}
     {{ end }}
   {{ end }}
 
-  <section class="home-grid">
-    <article class="home-panel home-hero">
-      <div class="home-hero__content">
-        <p class="home-eyebrow">Sonic Business Ltd</p>
-        <h1>Independent releases, show notes, and writing from the Canberra underground.</h1>
-        <p class="home-lead">
-          Sonic Business is a DIY label and publishing space for release drops, newsletters, gig updates, and the wider scene around them.
-        </p>
-        <p class="home-hero-note">
-          Everything here is meant to stay readable, searchable, and worth revisiting after the timeline moves on.
-        </p>
-      </div>
-      <div class="home-actions">
-        <a class="home-button home-button--primary" href="{{ $blogPage.RelPermalink }}">Browse the blog</a>
-        <a class="home-button" href="#home-watch">Featured video</a>
-      </div>
-    </article>
+  <section class="home-billboard">
+    <div class="home-billboard__art">
+      <img src="{{ "images/logo.jpg" | relURL }}" alt="Sonic Business logo">
+    </div>
+    <div class="home-billboard__copy">
+      <p class="module-kicker">Sonic Business Archive</p>
+      <h1>Give it a year.</h1>
+      <p>
+        A home for releases, show notes, newsletters, and the kind of scene writing that should still be readable long after the timeline moves on.
+      </p>
+    </div>
+  </section>
 
-    <section class="home-panel home-latest" id="latest-posts">
-      <div class="home-latest__header">
-        <div>
-          <p class="home-eyebrow">Latest</p>
-          <h2>Recent posts</h2>
-        </div>
-        <a class="home-text-link" href="{{ $blogPage.RelPermalink }}">See the full archive</a>
-      </div>
-      <div class="home-latest-stack">
-        {{ range $posts }}
-          {{ $category := "Misc" }}
-          {{ with .Params.categories }}
-            {{ $category = index . 0 }}
+  <nav class="home-navband" aria-label="Homepage sections">
+    <a href="{{ "/" | relLangURL }}">Home</a>
+    <a href="{{ $blogPage.RelPermalink }}">Posts</a>
+    <a href="{{ "categories/releases/" | relURL }}">Releases</a>
+    <a href="{{ "categories/newsletter/" | relURL }}">Newsletter</a>
+    <a href="{{ "categories/shows/" | relURL }}">Shows</a>
+    <a href="#home-watch">Watch</a>
+    <a href="#home-gallery">Gallery</a>
+  </nav>
+
+  <section class="home-columns">
+    <div class="home-main">
+      <section class="home-module home-list">
+        <div class="module-bar">Most recent posts</div>
+        <ul class="home-list__items">
+          {{ range first 5 $posts }}
+            <li>
+              <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+            </li>
           {{ end }}
-          <article class="home-latest-card">
-            <a class="home-latest-card__link" href="{{ .RelPermalink }}">
-              <div class="home-latest-card__meta">
-                <span class="home-latest-card__pill">{{ $category }}</span>
-                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 Jan 2006" }}</time>
-              </div>
-              <h3>{{ .Title }}</h3>
-              <p>{{ .Summary | plainify }}</p>
-            </a>
-          </article>
-        {{ end }}
-      </div>
+        </ul>
+        <a class="module-cta" href="{{ $blogPage.RelPermalink }}">Get more posts</a>
+      </section>
 
-      <div class="home-side-video" id="home-watch">
-        <div class="home-side-video__header">
-          <p class="home-eyebrow">Watch</p>
-          <h2>Featured video</h2>
-        </div>
-        <div class="home-video-frame home-video-frame--compact">
+      {{ with $featured }}
+        <article class="home-module home-featured">
+          <div class="module-bar module-bar--accent">Latest Sonic Business News</div>
+          <header class="home-featured__header">
+            <div class="home-date-tile">
+              <span class="home-date-tile__day">{{ .Date.Format "2" }}</span>
+              <span class="home-date-tile__month">{{ .Date.Format "Jan 2006" }}</span>
+            </div>
+            <div class="home-featured__titleblock">
+              <p class="home-featured__category">{{ with .Params.categories }}{{ index . 0 }}{{ else }}Misc{{ end }}</p>
+              <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+            </div>
+          </header>
+
+          {{ with $featuredCover }}
+            <a class="home-featured__image" href="{{ $featured.RelPermalink }}">
+              <img src="{{ . }}" alt="{{ $featured.Params.alt | default ($featured.Title | plainify) }}">
+            </a>
+          {{ end }}
+
+          <div class="home-featured__body">
+            <p>{{ .Summary | plainify }}</p>
+          </div>
+
+          <div class="home-featured__actions">
+            <a class="module-cta" href="{{ .RelPermalink }}">Read the dispatch</a>
+          </div>
+        </article>
+      {{ end }}
+    </div>
+
+    <aside class="home-sidebar">
+      <section class="home-module home-side-menu">
+        <div class="sidebar-title">The Menu</div>
+        <nav class="home-side-menu__links" aria-label="Sidebar menu">
+          {{ range site.Menus.main }}
+            <a href="{{ .URL | relURL }}">{{ .Name }}</a>
+          {{ end }}
+          <a href="{{ "categories/releases/" | relURL }}">Releases</a>
+          <a href="{{ "categories/newsletter/" | relURL }}">Newsletter</a>
+          <a href="{{ "categories/shows/" | relURL }}">Shows</a>
+        </nav>
+      </section>
+
+      <section class="home-module home-side-signup">
+        <div class="sidebar-title">Join the mailing list</div>
+        <p>Mailing list integration can drop in here once you choose a provider.</p>
+        <a class="module-cta" href="{{ $blogPage.RelPermalink }}">Follow the archive</a>
+      </section>
+
+      <section class="home-module home-side-watch" id="home-watch">
+        <div class="sidebar-title">Watch</div>
+        <div class="home-video-frame">
           <iframe
             src="https://www.youtube.com/embed/8aU9I5XuXRg"
             title="Sonic Business featured video"
@@ -68,52 +110,31 @@
             referrerpolicy="strict-origin-when-cross-origin"
             allowfullscreen></iframe>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="home-panel home-feature-strip">
-      <div class="home-panel-heading">
-        <p class="home-eyebrow">Why this site exists</p>
-        <h2>A durable archive for things worth keeping.</h2>
-      </div>
-      <p>
-        Social posts disappear. This site keeps release info, show notes, and scene memory readable and easy to return to later.
-      </p>
-      <ul class="home-inline-list">
-        <li>Releases</li>
-        <li>Newsletters</li>
-        <li>Shows</li>
-        <li>Misc</li>
-      </ul>
-    </section>
-
-    <section class="home-panel home-gallery" id="home-gallery">
-      <div class="home-panel-heading">
-        <p class="home-eyebrow">Gallery</p>
-        <h2>Automatic slideshow</h2>
-      </div>
-      {{ if $releaseCover }}
-        <div class="home-gallery-frame">
-          <div class="home-gallery-slide home-gallery-slide--one">
-            <img src="{{ "images/logo.jpg" | relURL }}" alt="Sonic Business logo">
-            <div class="home-gallery-caption">
-              <strong>Sonic Business</strong>
-              <span>Identity and archive</span>
+      <section class="home-module home-side-gallery" id="home-gallery">
+        <div class="sidebar-title">Gallery</div>
+        {{ if $featuredCover }}
+          <div class="home-gallery-frame">
+            <div class="home-gallery-slide home-gallery-slide--one">
+              <img src="{{ "images/logo.jpg" | relURL }}" alt="Sonic Business logo">
+              <div class="home-gallery-caption">
+                <strong>Sonic Business</strong>
+                <span>Identity and archive</span>
+              </div>
+            </div>
+            <div class="home-gallery-slide home-gallery-slide--two">
+              <img src="{{ $featuredCover }}" alt="{{ $featured.Params.alt | default ($featured.Title | plainify) }}">
+              <div class="home-gallery-caption">
+                <strong>{{ $featured.Title }}</strong>
+                <span>Artwork from the archive</span>
+              </div>
             </div>
           </div>
-          <div class="home-gallery-slide home-gallery-slide--two">
-            <img src="{{ $releaseCover }}" alt="Cover art for the first Sonic Business release dispatch">
-            <div class="home-gallery-caption">
-              <strong>First release dispatch</strong>
-              <span>Artwork from the archive</span>
-            </div>
-          </div>
-        </div>
-      {{ else }}
-        <p class="home-gallery-fallback">
-          A rotating gallery can live here once more source images are added to the site.
-        </p>
-      {{ end }}
-    </section>
+        {{ else }}
+          <p class="home-gallery-fallback">Add more source images to turn this into a richer slideshow.</p>
+        {{ end }}
+      </section>
+    </aside>
   </section>
 {{ end }}

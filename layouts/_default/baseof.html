@@ -8,50 +8,46 @@
   {{- partial "head.html" . -}}
   {{- partialCached "init.html" . -}}
 
-  {{ $bodyLayout := "flex flex-col h-screen m-auto leading-7 max-w-7xl px-6 sm:px-14 md:px-24 lg:px-32" }}
-  {{ $bodyColor := "text-lg bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral" }}
-  {{ $bodyScrollbar := "scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 dark:scrollbar-track-neutral-800 dark:scrollbar-thumb-neutral-600" }}
-  <body class="{{ $bodyLayout }} {{ $bodyColor }} {{ $bodyScrollbar }}">
-    <div id="the-top" class="absolute flex self-center">
-      <a
-        class="px-3 py-1 text-sm -translate-y-8 rounded-b-lg bg-primary-200 focus:translate-y-0 dark:bg-neutral-600"
-        href="#main-content">
-        <span class="font-bold text-primary-600 pe-2 dark:text-primary-400">&darr;</span>
-        {{ i18n "nav.skip_to_main" }}
-      </a>
-    </div>
-    {{ $header := print "header/" site.Params.header.layout ".html" }}
-    {{ if templates.Exists ( printf "partials/%s" $header ) }}
-      {{ partial $header . }}
-    {{ else }}
-      {{ partial "header/basic.html" . }}
-    {{ end }}
-    <div class="relative flex flex-col grow">
-      <main id="main-content" class="grow w-full">
-        <div class="site-shell">
-          {{ block "main" . }}{{ end }}
+  <body class="sonic-body bg-neutral text-neutral-900 dark:bg-neutral-800 dark:text-neutral">
+    <div id="the-top"></div>
+    <div class="site-page">
+      <header class="site-utility">
+        <p class="site-utility__tagline">
+          Independent releases, show notes, newsletters, and dispatches from the Canberra underground.
+        </p>
+        <div class="site-utility__tools">
+          {{ range site.Menus.main }}
+            <a href="{{ .URL | relURL }}">{{ .Name }}</a>
+          {{ end }}
+          <a class="site-utility__search" href="{{ "/blog/" | relLangURL }}">Search the archive</a>
         </div>
-        {{ if and (site.Params.footer.showScrollToTop | default true) }}
-          {{- partial "scroll-to-top.html" . -}}
-        {{ end }}
+      </header>
+
+      <main id="main-content" class="site-shell">
+        {{ block "main" . }}{{ end }}
       </main>
-      {{- partial "footer.html" . -}}
-      {{ if site.Params.enableSearch | default false }}
-        {{- partial "search.html" . -}}
-      {{ end }}
+
+      <footer id="site-footer" class="site-footer">
+        <section class="site-footer__search">
+          <p class="site-footer__kicker">Search this archive</p>
+          <a class="site-footer__cta" href="{{ "/blog/" | relLangURL }}">Browse all Sonic Business posts</a>
+        </section>
+
+        <section class="site-footer__signup">
+          <p class="site-footer__kicker">Join the mailing list</p>
+          <p>Mailing list integration is next. Until then, the archive is the best way to keep up.</p>
+        </section>
+
+        <section class="site-footer__brand">
+          <p class="site-footer__logo">SONIC BUSINESS</p>
+          <p>DIY label, live notes, and writing from Canberra.</p>
+          <div class="site-footer__links">
+            {{ range site.Menus.main }}
+              <a href="{{ .URL | relURL }}">{{ .Name }}</a>
+            {{ end }}
+          </div>
+        </section>
+      </footer>
     </div>
   </body>
-  {{ if site.Params.buymeacoffee.globalWidget | default false }}
-    <script
-      data-name="BMC-Widget"
-      data-cfasync="false"
-      src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
-      data-id="{{ site.Params.buymeacoffee.identifier }}"
-      data-description="Support me on Buy me a coffee!"
-      {{ with site.Params.buymeacoffee.globalWidgetMessage }}data-message="{{ . }}"{{ end }}
-      {{ with site.Params.buymeacoffee.globalWidgetColor | default `#FFDD00` }}data-color="{{ . }}"{{ end }}
-      {{ with site.Params.buymeacoffee.globalWidgetPosition }}data-position="{{ . }}"{{ end }}
-      data-x_margin="18"
-      data-y_margin="18"></script>
-  {{ end }}
 </html>
