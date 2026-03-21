@@ -1,0 +1,16 @@
+{{ $groups := trim (partial "post-groups.html" .) " \n\t" }}
+{{ $primaryGroup := index (split $groups " ") 0 }}
+<article class="post-card" data-groups="{{ $groups }}">
+  <div class="post-card-body">
+    <div class="post-card-meta">
+      <span class="post-chip">{{ $primaryGroup | title }}</span>
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 Jan 2006" }}</time>
+    </div>
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+    {{ with .Params.summary }}
+      <p>{{ . }}</p>
+    {{ else }}
+      <p>{{ .Summary | plainify }}</p>
+    {{ end }}
+  </div>
+</article>

@@ -1,0 +1,17 @@
+{{ define "main" }}
+  {{ $category := trim (partial "post-groups.html" .) " \n\t" }}
+  <article class="post-shell">
+    <div class="post-meta">
+      <a class="back-link" href="{{ "/blog/" | relURL }}">Back to blog</a>
+      <span class="post-chip">{{ $category | title }}</span>
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 Jan 2006" }}</time>
+    </div>
+    <h1>{{ .Title }}</h1>
+    {{ with .Params.summary }}
+      <p class="post-summary">{{ . }}</p>
+    {{ end }}
+    <div class="post-content">
+      {{ .Content }}
+    </div>
+  </article>
+{{ end }}

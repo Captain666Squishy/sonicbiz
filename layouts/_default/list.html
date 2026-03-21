@@ -1,0 +1,38 @@
+{{ define "main" }}
+  {{ $isBlog := eq .Section "blog" }}
+  {{ $pages := .Pages.ByDate.Reverse }}
+
+  <section class="page-header">
+    <p class="eyebrow">{{ if $isBlog }}Blog{{ else }}Browse{{ end }}</p>
+    <h1>{{ .Title }}</h1>
+    {{ with .Content }}
+      <div class="page-copy">{{ . }}</div>
+    {{ else }}
+      {{ if $isBlog }}
+        <p class="page-copy">Filter the archive by type and browse every post in a responsive grid.</p>
+      {{ end }}
+    {{ end }}
+  </section>
+
+  {{ if $isBlog }}
+    <div class="filter-tabs" role="tablist" aria-label="Filter blog posts">
+      <button class="filter-tab is-active" type="button" role="tab" aria-selected="true" data-filter="all">All Posts</button>
+      <button class="filter-tab" type="button" role="tab" aria-selected="false" data-filter="releases">Releases</button>
+      <button class="filter-tab" type="button" role="tab" aria-selected="false" data-filter="newsletter">Newsletter</button>
+      <button class="filter-tab" type="button" role="tab" aria-selected="false" data-filter="shows">Shows</button>
+      <button class="filter-tab" type="button" role="tab" aria-selected="false" data-filter="misc">Misc</button>
+    </div>
+  {{ end }}
+
+  <section class="post-grid{{ if $isBlog }} js-filter-grid{{ end }}"{{ if $isBlog }} data-default-filter="all"{{ end }}>
+    {{ range $pages }}
+      {{ partial "blog-card.html" . }}
+    {{ else }}
+      <p class="empty-state">No posts found.</p>
+    {{ end }}
+  </section>
+
+  {{ if $isBlog }}
+    <script src="{{ "blog-filters.js" | relURL }}" defer></script>
+  {{ end }}
+{{ end }}

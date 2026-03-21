@@ -1,0 +1,24 @@
+baseURL = 'https://sonicbusiness.example/'
+languageCode = 'en-us'
+title = 'Sonic Business'
+
+[taxonomies]
+category = 'categories'
+tag = 'tags'
+
+[params]
+description = 'Notes, releases, newsletters, and show updates from Sonic Business.'
+
+[menus]
+  [[menus.main]]
+  name = 'Home'
+  pageRef = '/'
+  weight = 10
+
+  [[menus.main]]
+  name = 'Blog'
+  pageRef = '/blog'
+  weight = 20
+
+[permalinks]
+blog = '/blog/:slug/'

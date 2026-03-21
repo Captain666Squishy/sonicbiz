@@ -1,0 +1,11 @@
+{{- $groups := slice -}}
+{{- range .Params.categories -}}
+  {{- $normalized := lower . -}}
+  {{- if in (slice "releases" "newsletter" "shows") $normalized -}}
+    {{- $groups = $groups | append $normalized -}}
+  {{- end -}}
+{{- end -}}
+{{- if eq (len $groups) 0 -}}
+  {{- $groups = $groups | append "misc" -}}
+{{- end -}}
+{{- delimit ($groups | uniq) " " -}}
