@@ -1,5 +1,5 @@
 :root {
-  --shell-max-width: 74rem;
+  --shell-max-width: 92rem;
   --body-font: "Inter", "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --body-text: #1f2933;
   --muted-text: #5f6c7b;
@@ -49,7 +49,7 @@ body p {
 .site-shell {
   width: min(var(--shell-max-width), 100%);
   margin-inline: auto;
-  padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1rem, 5vw, 3rem);
+  padding: clamp(1rem, 3vw, 2.5rem) clamp(1rem, 4vw, 2.5rem);
 }
 
 .site-shell > * + * {
@@ -283,7 +283,7 @@ html.dark .home-pillar {
 .home-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 0.9rem;
 }
 
 .home-panel {
@@ -305,8 +305,8 @@ html.dark .home-pillar {
 .home-hero {
   grid-column: span 8;
   display: grid;
-  gap: 1rem;
-  padding: 1.35rem;
+  gap: 0.85rem;
+  padding: 1.1rem;
 }
 
 .home-hero::after,
@@ -316,41 +316,42 @@ html.dark .home-pillar {
 
 .home-hero__header {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(180px, 0.7fr);
-  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr) 150px;
+  gap: 0.85rem;
   align-items: stretch;
 }
 
 .home-hero__content h1 {
-  font-size: clamp(2.35rem, 4vw, 4rem);
-  max-width: 11ch;
+  font-size: clamp(2rem, 3.5vw, 3.25rem);
+  max-width: 12ch;
 }
 
 .home-lead {
-  max-width: 58ch;
-  font-size: 0.98rem;
+  max-width: 54ch;
+  font-size: 0.93rem;
+  line-height: 1.55;
 }
 
 .home-logo-mark {
-  min-height: 12rem;
-  padding: 1rem;
+  min-height: 9rem;
+  padding: 0.85rem;
 }
 
 .home-logo-mark img {
-  width: min(100%, 12rem);
+  width: min(100%, 8rem);
 }
 
 .home-channel-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem;
+  gap: 0.6rem;
 }
 
 .home-channel {
   border: 1px solid var(--line-soft);
   border-radius: 0.2rem;
   background: rgba(255, 255, 255, 0.46);
-  padding: 0.9rem;
+  padding: 0.7rem;
 }
 
 html.dark .home-channel {
@@ -358,9 +359,9 @@ html.dark .home-channel {
 }
 
 .home-channel__kicker {
-  margin: 0 0 0.45rem;
+  margin: 0 0 0.35rem;
   color: var(--home-accent);
-  font-size: 0.74rem;
+  font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -368,50 +369,52 @@ html.dark .home-channel {
 
 .home-channel h2 {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 0.96rem;
   line-height: 1.05;
 }
 
 .home-channel p {
-  margin: 0.45rem 0 0;
+  margin: 0.35rem 0 0;
   color: var(--muted-text);
-  font-size: 0.9rem;
-  line-height: 1.45;
+  font-size: 0.8rem;
+  line-height: 1.35;
 }
 
 .home-video {
   grid-column: span 4;
   display: grid;
-  gap: 0.75rem;
-  padding: 1rem;
+  gap: 0.65rem;
+  padding: 0.9rem;
 }
 
 .home-panel-heading h2 {
   margin: 0;
-  font-size: clamp(1.2rem, 2.4vw, 1.75rem);
+  font-size: clamp(1.05rem, 2vw, 1.45rem);
   line-height: 1;
   letter-spacing: -0.03em;
 }
 
 .home-video-frame {
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
   padding-top: 0;
   min-height: 0;
+  max-height: 220px;
 }
 
 .home-feature-strip {
   grid-column: span 4;
   display: grid;
-  gap: 0.8rem;
-  padding: 1rem;
+  gap: 0.65rem;
+  padding: 0.9rem;
 }
 
 .home-feature-strip h2 {
-  font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+  font-size: clamp(1.1rem, 2vw, 1.55rem);
 }
 
 .home-feature-strip p {
-  font-size: 0.95rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
 }
 
 .home-inline-list {
@@ -426,17 +429,17 @@ html.dark .home-channel {
 .home-inline-list li {
   border: 1px solid var(--line-soft);
   border-radius: 0.18rem;
-  padding: 0.35rem 0.55rem;
+  padding: 0.3rem 0.5rem;
   color: var(--muted-text);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 600;
 }
 
 .home-latest {
   grid-column: span 8;
   display: grid;
-  gap: 0.75rem;
-  padding: 1rem;
+  gap: 0.7rem;
+  padding: 0.9rem;
 }
 
 .home-latest__header {
@@ -449,27 +452,27 @@ html.dark .home-channel {
 .home-post-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.85rem;
+  gap: 0.7rem;
 }
 
 .home-post-grid .post-card .px-6.py-4 {
-  padding: 1rem;
+  padding: 0.8rem;
 }
 
 .home-post-grid .post-card .thumbnail_card {
-  padding-top: 48%;
+  padding-top: 42%;
 }
 
 .home-post-grid .post-card header h2 {
-  font-size: 1.05rem;
+  font-size: 0.98rem;
 }
 
 .home-post-grid .post-card .text-sm {
-  font-size: 0.84rem;
+  font-size: 0.78rem;
 }
 
 .home-post-grid .post-card .px-6.pt-4.pb-2 {
-  padding-bottom: 1rem;
+  padding-bottom: 0.8rem;
 }
 
 .blog-filter-shell {
