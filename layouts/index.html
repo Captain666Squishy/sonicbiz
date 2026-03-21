@@ -1,94 +1,91 @@
 {{ define "main" }}
-  {{ $posts := first 4 (where .Site.RegularPages.ByDate.Reverse "Section" "blog") }}
+  {{ $posts := first 3 (where .Site.RegularPages.ByDate.Reverse "Section" "blog") }}
   {{ $blogPage := site.GetPage "/blog" }}
 
-  <section class="home-hero">
-    <div class="home-hero__content">
-      <p class="home-eyebrow">Sonic Business Ltd</p>
-      <h1>Independent releases, show notes, and writing from the Canberra underground.</h1>
-      <p class="home-lead">
-        Sonic Business is a DIY label and publishing space for release drops, newsletters, gig updates, and the wider scene around them.
-      </p>
-      <div class="home-actions">
-        <a class="home-button home-button--primary" href="{{ $blogPage.RelPermalink }}">Browse the blog</a>
-        <a class="home-button" href="#latest-posts">Latest posts</a>
+  <section class="home-grid">
+    <article class="home-panel home-hero">
+      <div class="home-hero__header">
+        <div class="home-hero__content">
+          <p class="home-eyebrow">Sonic Business Ltd</p>
+          <h1>Independent releases, show notes, and writing from the Canberra underground.</h1>
+          <p class="home-lead">
+            Sonic Business is a DIY label and publishing space for release drops, newsletters, gig updates, and the wider scene around them.
+          </p>
+          <div class="home-actions">
+            <a class="home-button home-button--primary" href="{{ $blogPage.RelPermalink }}">Browse the blog</a>
+            <a class="home-button" href="#latest-posts">Latest posts</a>
+          </div>
+        </div>
+
+        <div class="home-logo-mark">
+          <img src="{{ "images/logo.jpg" | relURL }}" alt="Sonic Business Ltd logo">
+        </div>
       </div>
-    </div>
 
-    <div class="home-hero__art">
-      <div class="home-logo-mark">
-        <img src="{{ "images/logo.jpg" | relURL }}" alt="Sonic Business Ltd logo">
+      <div class="home-channel-grid">
+        <article class="home-channel">
+          <p class="home-channel__kicker">Releases</p>
+          <h2>Project updates</h2>
+          <p>Keep launches and release notes in one place.</p>
+        </article>
+        <article class="home-channel">
+          <p class="home-channel__kicker">Shows</p>
+          <h2>Room reports</h2>
+          <p>Short notes on bills, lineups, and nights worth remembering.</p>
+        </article>
+        <article class="home-channel">
+          <p class="home-channel__kicker">Writing</p>
+          <h2>Newsletters</h2>
+          <p>Context, recommendations, and scene memory beyond promo copy.</p>
+        </article>
       </div>
-      <div class="home-signal-card">
-        <p class="home-signal-card__label">Publishing lanes</p>
-        <ul>
-          <li>Releases</li>
-          <li>Newsletters</li>
-          <li>Shows</li>
-          <li>Misc writing</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="home-pillars">
-    <article class="home-pillar">
-      <p class="home-pillar__kicker">Releases</p>
-      <h2>New music and project updates.</h2>
-      <p>Track launches, notes, and release context in one stable archive instead of scattered posts.</p>
     </article>
-    <article class="home-pillar">
-      <p class="home-pillar__kicker">Shows</p>
-      <h2>Live notes from rooms, bills, and scenes.</h2>
-      <p>Keep short records of lineups, nights, and details that usually disappear once the posters come down.</p>
-    </article>
-    <article class="home-pillar">
-      <p class="home-pillar__kicker">Writing</p>
-      <h2>Newsletters and miscellaneous dispatches.</h2>
-      <p>Make room for editorial notes, recommendations, and scene writing that sits outside strict release coverage.</p>
-    </article>
-  </section>
 
-  <section class="home-feature-strip">
-    <div>
-      <p class="home-eyebrow">Why this site exists</p>
-      <h2>A durable archive for things worth keeping.</h2>
-    </div>
-    <p>
-      Social posts disappear. This site is where release information, show notes, and scene memory stay readable, searchable, and easy to return to later.
-    </p>
-  </section>
-
-  <section class="home-video">
-    <div class="home-section-heading">
-      <div>
+    <section class="home-panel home-video">
+      <div class="home-panel-heading">
         <p class="home-eyebrow">Watch</p>
         <h2>Featured video</h2>
       </div>
-    </div>
-    <div class="home-video-frame">
-      <iframe
-        src="https://www.youtube.com/embed/8aU9I5XuXRg"
-        title="Sonic Business featured video"
-        loading="lazy"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen></iframe>
-    </div>
-  </section>
-
-  <section class="home-latest" id="latest-posts">
-    <div class="home-section-heading">
-      <div>
-        <p class="home-eyebrow">Latest</p>
-        <h2>Recent posts</h2>
+      <div class="home-video-frame">
+        <iframe
+          src="https://www.youtube.com/embed/8aU9I5XuXRg"
+          title="Sonic Business featured video"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
       </div>
-      <a class="home-text-link" href="{{ $blogPage.RelPermalink }}">See the full archive</a>
-    </div>
-    <section class="card-grid blog-card-grid w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+    </section>
+
+    <section class="home-panel home-feature-strip">
+      <div class="home-panel-heading">
+        <p class="home-eyebrow">Why this site exists</p>
+        <h2>A durable archive for things worth keeping.</h2>
+      </div>
+      <p>
+        Social posts disappear. This site is where release information, show notes, and scene memory stay readable, searchable, and easy to return to later.
+      </p>
+      <ul class="home-inline-list">
+        <li>Releases</li>
+        <li>Newsletters</li>
+        <li>Shows</li>
+        <li>Misc</li>
+      </ul>
+    </section>
+
+    <section class="home-panel home-latest" id="latest-posts">
+      <div class="home-latest__header">
+        <div>
+          <p class="home-eyebrow">Latest</p>
+          <h2>Recent posts</h2>
+        </div>
+        <a class="home-text-link" href="{{ $blogPage.RelPermalink }}">See the full archive</a>
+      </div>
+      <section class="home-post-grid">
       {{ range $posts }}
         {{ partial "article-link/card.html" . }}
       {{ end }}
+      </section>
     </section>
   </section>
 {{ end }}

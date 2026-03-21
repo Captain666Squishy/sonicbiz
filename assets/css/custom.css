@@ -280,6 +280,198 @@ html.dark .home-pillar {
   font-weight: 700;
 }
 
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.home-panel {
+  border: 1px solid var(--line-soft);
+  border-radius: 0.24rem;
+  background: var(--home-surface);
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(10px);
+  padding: 1.25rem;
+}
+
+.home-hero,
+.home-video,
+.home-feature-strip,
+.home-latest {
+  margin: 0;
+}
+
+.home-hero {
+  grid-column: span 8;
+  display: grid;
+  gap: 1rem;
+  padding: 1.35rem;
+}
+
+.home-hero::after,
+.home-feature-strip::after {
+  display: none;
+}
+
+.home-hero__header {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(180px, 0.7fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.home-hero__content h1 {
+  font-size: clamp(2.35rem, 4vw, 4rem);
+  max-width: 11ch;
+}
+
+.home-lead {
+  max-width: 58ch;
+  font-size: 0.98rem;
+}
+
+.home-logo-mark {
+  min-height: 12rem;
+  padding: 1rem;
+}
+
+.home-logo-mark img {
+  width: min(100%, 12rem);
+}
+
+.home-channel-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.home-channel {
+  border: 1px solid var(--line-soft);
+  border-radius: 0.2rem;
+  background: rgba(255, 255, 255, 0.46);
+  padding: 0.9rem;
+}
+
+html.dark .home-channel {
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.home-channel__kicker {
+  margin: 0 0 0.45rem;
+  color: var(--home-accent);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.home-channel h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.05;
+}
+
+.home-channel p {
+  margin: 0.45rem 0 0;
+  color: var(--muted-text);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.home-video {
+  grid-column: span 4;
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.home-panel-heading h2 {
+  margin: 0;
+  font-size: clamp(1.2rem, 2.4vw, 1.75rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.home-video-frame {
+  aspect-ratio: 16 / 10;
+  padding-top: 0;
+  min-height: 0;
+}
+
+.home-feature-strip {
+  grid-column: span 4;
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+.home-feature-strip h2 {
+  font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+}
+
+.home-feature-strip p {
+  font-size: 0.95rem;
+}
+
+.home-inline-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-inline-list li {
+  border: 1px solid var(--line-soft);
+  border-radius: 0.18rem;
+  padding: 0.35rem 0.55rem;
+  color: var(--muted-text);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.home-latest {
+  grid-column: span 8;
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.home-latest__header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.home-post-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.home-post-grid .post-card .px-6.py-4 {
+  padding: 1rem;
+}
+
+.home-post-grid .post-card .thumbnail_card {
+  padding-top: 48%;
+}
+
+.home-post-grid .post-card header h2 {
+  font-size: 1.05rem;
+}
+
+.home-post-grid .post-card .text-sm {
+  font-size: 0.84rem;
+}
+
+.home-post-grid .post-card .px-6.pt-4.pb-2 {
+  padding-bottom: 1rem;
+}
+
 .blog-filter-shell {
   margin-bottom: 1.5rem;
 }
@@ -409,6 +601,26 @@ html.dark .post-card-pill {
   text-underline-offset: 0.25em;
 }
 
+@media (max-width: 960px) {
+  .home-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .home-hero,
+  .home-latest {
+    grid-column: span 6;
+  }
+
+  .home-video,
+  .home-feature-strip {
+    grid-column: span 3;
+  }
+
+  .home-post-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 640px) {
   body {
     font-size: 1rem;
@@ -418,19 +630,40 @@ html.dark .post-card-pill {
     padding: 1.5rem 1rem 2rem;
   }
 
-  .home-hero,
-  .home-feature-strip,
-  .home-pillars {
+  .home-grid,
+  .home-hero__header,
+  .home-channel-grid,
+  .home-post-grid {
     grid-template-columns: 1fr;
   }
 
-  .home-section-heading {
+  .home-hero,
+  .home-video,
+  .home-feature-strip,
+  .home-latest {
+    grid-column: span 1;
+  }
+
+  .home-latest > div {
+    display: grid;
+  }
+
+  .home-section-heading,
+  .home-latest__header {
     align-items: flex-start;
     flex-direction: column;
   }
 
+  .home-latest__header {
+    display: flex;
+  }
+
   .home-hero__content h1 {
     max-width: none;
+  }
+
+  .home-logo-mark {
+    min-height: 10rem;
   }
 }
 
