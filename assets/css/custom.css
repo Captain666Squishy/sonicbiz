@@ -736,6 +736,107 @@ html.dark .home-latest-card {
   max-height: none;
 }
 
+.home-latest {
+  align-content: start;
+}
+
+.home-side-video {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 0.15rem;
+}
+
+.home-side-video__header h2 {
+  margin: 0;
+  font-size: clamp(1rem, 1.8vw, 1.35rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.home-video-frame--compact {
+  aspect-ratio: 16 / 9;
+  max-height: 180px;
+}
+
+.home-gallery {
+  grid-column: span 8;
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.home-gallery-frame {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line-soft);
+  border-radius: 0.24rem;
+  background: rgba(255, 255, 255, 0.45);
+  box-shadow: var(--card-shadow);
+  aspect-ratio: 16 / 7.8;
+}
+
+html.dark .home-gallery-frame {
+  background: rgba(15, 23, 42, 0.56);
+}
+
+.home-gallery-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  animation: home-gallery-cycle 12s infinite;
+}
+
+.home-gallery-slide--two {
+  animation-delay: 6s;
+}
+
+.home-gallery-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.home-gallery-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.9rem 1rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  color: #f8fafc;
+}
+
+.home-gallery-caption strong {
+  font-size: 0.98rem;
+  line-height: 1.1;
+}
+
+.home-gallery-caption span {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+.home-gallery-fallback {
+  margin: 0;
+  color: var(--muted-text);
+  font-size: 0.9rem;
+}
+
+@keyframes home-gallery-cycle {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
 @media (max-width: 960px) {
   .home-grid {
     grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -744,12 +845,16 @@ html.dark .home-latest-card {
   .home-hero,
   .home-latest,
   .home-feature-strip,
-  .home-video {
+  .home-gallery {
     grid-column: span 6;
   }
 
   .home-hero {
     min-height: 0;
+  }
+
+  .home-video-frame--compact {
+    max-height: none;
   }
 }
 
@@ -770,7 +875,7 @@ html.dark .home-latest-card {
   }
 
   .home-hero,
-  .home-video,
+  .home-gallery,
   .home-feature-strip,
   .home-latest {
     grid-column: span 1;
@@ -800,6 +905,10 @@ html.dark .home-latest-card {
 
   .home-latest-card__link {
     min-height: 8rem;
+  }
+
+  .home-gallery-frame {
+    aspect-ratio: 16 / 10;
   }
 }
 

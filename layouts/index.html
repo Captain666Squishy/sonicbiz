@@ -1,6 +1,13 @@
 {{ define "main" }}
   {{ $posts := first 3 (where .Site.RegularPages.ByDate.Reverse "Section" "blog") }}
   {{ $blogPage := site.GetPage "/blog" }}
+  {{ $releasePage := site.GetPage "/blog/first-post" }}
+  {{ $releaseCover := "" }}
+  {{ with $releasePage }}
+    {{ with .Resources.GetMatch "*cover*" }}
+      {{ $releaseCover = .RelPermalink }}
+    {{ end }}
+  {{ end }}
 
   <section class="home-grid">
     <article class="home-panel home-hero">
@@ -16,7 +23,7 @@
       </div>
       <div class="home-actions">
         <a class="home-button home-button--primary" href="{{ $blogPage.RelPermalink }}">Browse the blog</a>
-        <a class="home-button" href="#home-video">Featured video</a>
+        <a class="home-button" href="#home-watch">Featured video</a>
       </div>
     </article>
 
@@ -46,6 +53,22 @@
           </article>
         {{ end }}
       </div>
+
+      <div class="home-side-video" id="home-watch">
+        <div class="home-side-video__header">
+          <p class="home-eyebrow">Watch</p>
+          <h2>Featured video</h2>
+        </div>
+        <div class="home-video-frame home-video-frame--compact">
+          <iframe
+            src="https://www.youtube.com/embed/8aU9I5XuXRg"
+            title="Sonic Business featured video"
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>
+        </div>
+      </div>
     </section>
 
     <section class="home-panel home-feature-strip">
@@ -64,20 +87,33 @@
       </ul>
     </section>
 
-    <section class="home-panel home-video" id="home-video">
+    <section class="home-panel home-gallery" id="home-gallery">
       <div class="home-panel-heading">
-        <p class="home-eyebrow">Watch</p>
-        <h2>Featured video</h2>
+        <p class="home-eyebrow">Gallery</p>
+        <h2>Automatic slideshow</h2>
       </div>
-      <div class="home-video-frame">
-        <iframe
-          src="https://www.youtube.com/embed/8aU9I5XuXRg"
-          title="Sonic Business featured video"
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen></iframe>
-      </div>
+      {{ if $releaseCover }}
+        <div class="home-gallery-frame">
+          <div class="home-gallery-slide home-gallery-slide--one">
+            <img src="{{ "images/logo.jpg" | relURL }}" alt="Sonic Business logo">
+            <div class="home-gallery-caption">
+              <strong>Sonic Business</strong>
+              <span>Identity and archive</span>
+            </div>
+          </div>
+          <div class="home-gallery-slide home-gallery-slide--two">
+            <img src="{{ $releaseCover }}" alt="Cover art for the first Sonic Business release dispatch">
+            <div class="home-gallery-caption">
+              <strong>First release dispatch</strong>
+              <span>Artwork from the archive</span>
+            </div>
+          </div>
+        </div>
+      {{ else }}
+        <p class="home-gallery-fallback">
+          A rotating gallery can live here once more source images are added to the site.
+        </p>
+      {{ end }}
     </section>
   </section>
 {{ end }}
