@@ -4,56 +4,47 @@
 
   <section class="home-grid">
     <article class="home-panel home-hero">
-      <div class="home-hero__header">
-        <div class="home-hero__content">
-          <p class="home-eyebrow">Sonic Business Ltd</p>
-          <h1>Independent releases, show notes, and writing from the Canberra underground.</h1>
-          <p class="home-lead">
-            Sonic Business is a DIY label and publishing space for release drops, newsletters, gig updates, and the wider scene around them.
-          </p>
-          <div class="home-actions">
-            <a class="home-button home-button--primary" href="{{ $blogPage.RelPermalink }}">Browse the blog</a>
-            <a class="home-button" href="#latest-posts">Latest posts</a>
-          </div>
-        </div>
-
-        <div class="home-logo-mark">
-          <img src="{{ "images/logo.jpg" | relURL }}" alt="Sonic Business Ltd logo">
-        </div>
+      <div class="home-hero__content">
+        <p class="home-eyebrow">Sonic Business Ltd</p>
+        <h1>Independent releases, show notes, and writing from the Canberra underground.</h1>
+        <p class="home-lead">
+          Sonic Business is a DIY label and publishing space for release drops, newsletters, gig updates, and the wider scene around them.
+        </p>
+        <p class="home-hero-note">
+          Everything here is meant to stay readable, searchable, and worth revisiting after the timeline moves on.
+        </p>
       </div>
-
-      <div class="home-channel-grid">
-        <article class="home-channel">
-          <p class="home-channel__kicker">Releases</p>
-          <h2>Updates</h2>
-          <p>Track launches and release notes.</p>
-        </article>
-        <article class="home-channel">
-          <p class="home-channel__kicker">Shows</p>
-          <h2>Live notes</h2>
-          <p>Keep quick notes on bills and rooms.</p>
-        </article>
-        <article class="home-channel">
-          <p class="home-channel__kicker">Writing</p>
-          <h2>Dispatches</h2>
-          <p>Context and scene memory beyond promo copy.</p>
-        </article>
+      <div class="home-actions">
+        <a class="home-button home-button--primary" href="{{ $blogPage.RelPermalink }}">Browse the blog</a>
+        <a class="home-button" href="#home-video">Featured video</a>
       </div>
     </article>
 
-    <section class="home-panel home-video">
-      <div class="home-panel-heading">
-        <p class="home-eyebrow">Watch</p>
-        <h2>Featured video</h2>
+    <section class="home-panel home-latest" id="latest-posts">
+      <div class="home-latest__header">
+        <div>
+          <p class="home-eyebrow">Latest</p>
+          <h2>Recent posts</h2>
+        </div>
+        <a class="home-text-link" href="{{ $blogPage.RelPermalink }}">See the full archive</a>
       </div>
-      <div class="home-video-frame">
-        <iframe
-          src="https://www.youtube.com/embed/8aU9I5XuXRg"
-          title="Sonic Business featured video"
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen></iframe>
+      <div class="home-latest-stack">
+        {{ range $posts }}
+          {{ $category := "Misc" }}
+          {{ with .Params.categories }}
+            {{ $category = index . 0 }}
+          {{ end }}
+          <article class="home-latest-card">
+            <a class="home-latest-card__link" href="{{ .RelPermalink }}">
+              <div class="home-latest-card__meta">
+                <span class="home-latest-card__pill">{{ $category }}</span>
+                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 Jan 2006" }}</time>
+              </div>
+              <h3>{{ .Title }}</h3>
+              <p>{{ .Summary | plainify }}</p>
+            </a>
+          </article>
+        {{ end }}
       </div>
     </section>
 
@@ -73,19 +64,20 @@
       </ul>
     </section>
 
-    <section class="home-panel home-latest" id="latest-posts">
-      <div class="home-latest__header">
-        <div>
-          <p class="home-eyebrow">Latest</p>
-          <h2>Recent posts</h2>
-        </div>
-        <a class="home-text-link" href="{{ $blogPage.RelPermalink }}">See the full archive</a>
+    <section class="home-panel home-video" id="home-video">
+      <div class="home-panel-heading">
+        <p class="home-eyebrow">Watch</p>
+        <h2>Featured video</h2>
       </div>
-      <section class="home-post-grid">
-      {{ range $posts }}
-        {{ partial "article-link/card.html" . }}
-      {{ end }}
-      </section>
+      <div class="home-video-frame">
+        <iframe
+          src="https://www.youtube.com/embed/8aU9I5XuXRg"
+          title="Sonic Business featured video"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
     </section>
   </section>
 {{ end }}
