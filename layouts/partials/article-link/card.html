@@ -8,6 +8,18 @@
 {{ $page := .Page }}
 {{ $featured := "" }}
 {{ $featuredURL := "" }}
+{{ $blogGroups := slice }}
+{{ range .Params.categories }}
+  {{ $normalizedCategory := lower . }}
+  {{ if in (slice "releases" "newsletter" "shows") $normalizedCategory }}
+    {{ $blogGroups = $blogGroups | append $normalizedCategory }}
+  {{ end }}
+{{ end }}
+{{ if eq (len $blogGroups) 0 }}
+  {{ $blogGroups = $blogGroups | append "misc" }}
+{{ end }}
+{{ $blogGroupString := delimit ($blogGroups | uniq) " " }}
+{{ $blogGroupLabel := title (index $blogGroups 0) }}
 {{ if not .Params.hideFeatureImage }}
   {{/* frontmatter */}}
   {{ with $page }}
@@ -55,7 +67,8 @@
 
 
 <article
-  class="post-card relative min-h-full min-w-full overflow-hidden rounded border border-2 border-neutral-200 shadow-2xl dark:border-neutral-700">
+  class="post-card relative min-h-full min-w-full overflow-hidden rounded border border-2 border-neutral-200 shadow-2xl dark:border-neutral-700"
+  data-blog-group="{{ $blogGroupString }}">
   {{ with $featuredURL }}
     <div class="flex-none relative overflow-hidden thumbnail_card">
       <img
@@ -73,6 +86,9 @@
   {{ end }}
   <div class="px-6 py-4">
     <header>
+      <div class="post-card-kicker">
+        <span class="post-card-pill">{{ $blogGroupLabel }}</span>
+      </div>
       <a
         {{ with $page.Params.externalUrl }}
           href="{{ . }}" target="_blank" rel="external"

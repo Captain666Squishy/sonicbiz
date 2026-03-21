@@ -2,6 +2,14 @@
   {{ .Scratch.Set "scope" "list" }}
   {{ $enableToc := .Params.showTableOfContents | default (site.Params.list.showTableOfContents | default false) }}
   {{ $showToc := and $enableToc (in .TableOfContents "<ul") }}
+  {{ $isBlogSection := eq .Section "blog" }}
+  {{ $blogTabOrder := slice
+    (dict "key" "all" "label" "All Posts")
+    (dict "key" "releases" "label" "Releases")
+    (dict "key" "newsletter" "label" "Newsletter")
+    (dict "key" "shows" "label" "Shows")
+    (dict "key" "misc" "label" "Misc")
+  }}
 
   {{/* Hero */}}
   {{ if site.Params.list.showHero | default false }}
@@ -64,6 +72,23 @@
     {{ $orderByWeight := .Params.orderByWeight | default (site.Params.list.orderByWeight | default false) }}
     {{ $groupByYear := and (not $orderByWeight) $groupByYear }}
 
+    {{ if $isBlogSection }}
+      <section class="blog-filter-shell mt-10">
+        <div class="blog-filter-tabs" role="tablist" aria-label="Filter blog posts">
+          {{ range $index, $tab := $blogTabOrder }}
+            <button
+              class="blog-filter-tab{{ if eq $index 0 }} is-active{{ end }}"
+              type="button"
+              role="tab"
+              aria-selected="{{ if eq $index 0 }}true{{ else }}false{{ end }}"
+              data-blog-filter="{{ $tab.key }}">
+              {{ $tab.label }}
+            </button>
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+
     {{ if not $cardView }}
       <section class="space-y-10 w-full">
         {{ if not $orderByWeight }}
@@ -85,7 +110,7 @@
       </section>
     {{/* else: is cardView */}}
     {{ else }}
-      {{ if $groupByYear }}
+      {{ if and $groupByYear (not $isBlogSection) }}
         {{ range (.Paginate (.Pages.GroupByDate "2006")).PageGroups }}
           {{ if $cardViewScreenWidth }}
             <div class="relative w-screen max-w-[1600px] px-[30px] start-[calc(max(-50vw,-800px)+50%)]">
@@ -114,7 +139,7 @@
       {{ else }}
         {{ if $cardViewScreenWidth }}
           <div class="relative w-screen max-w-[1600px] px-[30px] start-[calc(max(-50vw,-800px)+50%)]">
-          <section class="card-grid w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+          <section class="card-grid{{ if $isBlogSection }} blog-card-grid js-blog-card-grid{{ end }} w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
               {{ if not $orderByWeight }}
                 {{ range (.Paginate (.Pages.GroupByDate "2006")).PageGroups }}
                   {{ range .Pages }}
@@ -129,8 +154,8 @@
             </section>
           </div>
         {{ else }}
-          <section class="card-grid w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-            {{ if not $orderByWeight }}
+          <section class="card-grid{{ if $isBlogSection }} blog-card-grid js-blog-card-grid{{ end }} w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+            {{ if and (not $orderByWeight) (not $isBlogSection) }}
               {{ range (.Paginate (.Pages.GroupByDate "2006")).PageGroups }}
                 {{ range .Pages }}
                   {{ partial "article-link/card.html" . }}
@@ -152,6 +177,39 @@
         <em>{{ i18n "list.no_articles" | emojify }}</em>
       </p>
     </section>
+  {{ end }}
+  {{ if $isBlogSection }}
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const grid = document.querySelector(".js-blog-card-grid");
+        if (!grid) return;
+
+        const cards = Array.from(grid.querySelectorAll(".post-card"));
+        const tabs = Array.from(document.querySelectorAll(".blog-filter-tab"));
+
+        function applyFilter(filterKey) {
+          cards.forEach(function (card) {
+            const groups = (card.dataset.blogGroup || "").split(/\s+/).filter(Boolean);
+            const show = filterKey === "all" || groups.includes(filterKey);
+            card.hidden = !show;
+          });
+
+          tabs.forEach(function (tab) {
+            const active = tab.dataset.blogFilter === filterKey;
+            tab.classList.toggle("is-active", active);
+            tab.setAttribute("aria-selected", active ? "true" : "false");
+          });
+        }
+
+        tabs.forEach(function (tab) {
+          tab.addEventListener("click", function () {
+            applyFilter(tab.dataset.blogFilter || "all");
+          });
+        });
+
+        applyFilter("all");
+      });
+    </script>
   {{ end }}
   {{ partial "pagination.html" . }}
 {{ end }}

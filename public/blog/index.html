@@ -92,8 +92,8 @@
   <link
     type="text/css"
     rel="stylesheet"
-    href="/sonicbiz/css/main.bundle.min.64803b059a9b835910a62b2159e0dcc9324ca41e93dbeb3858dae7ac451a3d5d23798c09854574b358eced95bc96b02eaa50c88eea302e8c14079cadbea2eb6e.css"
-    integrity="sha512-ZIA7BZqbg1kQpishWeDcyTJMpB6T2&#43;s4WNrnrEUaPV0jeYwJhUV0s1js7ZW8lrAuqlDIjuowLowUB5ytvqLrbg==">
+    href="/sonicbiz/css/main.bundle.min.bdc0a2a9e6cb58b060fdf55b99957183402ba979307051389420a66240e1f086d20fe45d343ec5c79190bd136caed37f914605cb75c24ad906fdd9e3283c657f.css"
+    integrity="sha512-vcCiqebLWLBg/fVbmZVxg0ArqXkwcFE4lCCmYkDh8IbSD&#43;RdND7Fx5GQvRNsrtN/kUYFy3XCStkG/dnjKDxlfw==">
 
   
   
@@ -353,6 +353,8 @@
   
   
   
+  
+  
 
   
   
@@ -414,16 +416,76 @@
     
 
     
+      <section class="blog-filter-shell mt-10">
+        <div class="blog-filter-tabs" role="tablist" aria-label="Filter blog posts">
+          
+            <button
+              class="blog-filter-tab is-active"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              data-blog-filter="all">
+              All Posts
+            </button>
+          
+            <button
+              class="blog-filter-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              data-blog-filter="releases">
+              Releases
+            </button>
+          
+            <button
+              class="blog-filter-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              data-blog-filter="newsletter">
+              Newsletter
+            </button>
+          
+            <button
+              class="blog-filter-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              data-blog-filter="shows">
+              Shows
+            </button>
+          
+            <button
+              class="blog-filter-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              data-blog-filter="misc">
+              Misc
+            </button>
+          
+        </div>
+      </section>
+    
+
+    
       
         
-          
-            <h2 class="mt-12 mb-3 text-2xl font-bold text-neutral-700 first:mt-8 dark:text-neutral-300">
-              2025
-            </h2>
-            <section class="card-grid w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+          <section class="card-grid blog-card-grid js-blog-card-grid w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+            
               
                 
 
+
+
+
+
+
+
+  
+  
+    
+  
 
 
 
@@ -460,11 +522,15 @@
 
 
 <article
-  class="post-card relative min-h-full min-w-full overflow-hidden rounded border border-2 border-neutral-200 shadow-2xl dark:border-neutral-700">
+  class="post-card relative min-h-full min-w-full overflow-hidden rounded border border-2 border-neutral-200 shadow-2xl dark:border-neutral-700"
+  data-blog-group="newsletter">
   
   
   <div class="px-6 py-4">
     <header>
+      <div class="post-card-kicker">
+        <span class="post-card-pill">Newsletter</span>
+      </div>
       <a
         
           href="/sonicbiz/blog/title/"
@@ -547,17 +613,18 @@
 </article>
 
               
-            </section>
-          
-        
-          
-            <h2 class="mt-12 mb-3 text-2xl font-bold text-neutral-700 first:mt-8 dark:text-neutral-300">
-              0001
-            </h2>
-            <section class="card-grid w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-              
                 
 
+
+
+
+
+
+
+  
+  
+    
+  
 
 
 
@@ -596,7 +663,8 @@
 
 
 <article
-  class="post-card relative min-h-full min-w-full overflow-hidden rounded border border-2 border-neutral-200 shadow-2xl dark:border-neutral-700">
+  class="post-card relative min-h-full min-w-full overflow-hidden rounded border border-2 border-neutral-200 shadow-2xl dark:border-neutral-700"
+  data-blog-group="releases">
   
     <div class="flex-none relative overflow-hidden thumbnail_card">
       <img
@@ -610,6 +678,9 @@
   
   <div class="px-6 py-4">
     <header>
+      <div class="post-card-kicker">
+        <span class="post-card-pill">Releases</span>
+      </div>
       <a
         
           href="/sonicbiz/blog/first-post/"
@@ -688,14 +759,45 @@
 </article>
 
               
-            </section>
-          
+            
+          </section>
         
-
-      
       
     
   
+  
+  
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const grid = document.querySelector(".js-blog-card-grid");
+        if (!grid) return;
+
+        const cards = Array.from(grid.querySelectorAll(".post-card"));
+        const tabs = Array.from(document.querySelectorAll(".blog-filter-tab"));
+
+        function applyFilter(filterKey) {
+          cards.forEach(function (card) {
+            const groups = (card.dataset.blogGroup || "").split(/\s+/).filter(Boolean);
+            const show = filterKey === "all" || groups.includes(filterKey);
+            card.hidden = !show;
+          });
+
+          tabs.forEach(function (tab) {
+            const active = tab.dataset.blogFilter === filterKey;
+            tab.classList.toggle("is-active", active);
+            tab.setAttribute("aria-selected", active ? "true" : "false");
+          });
+        }
+
+        tabs.forEach(function (tab) {
+          tab.addEventListener("click", function () {
+            applyFilter(tab.dataset.blogFilter || "all");
+          });
+        });
+
+        applyFilter("all");
+      });
+    </script>
   
   
 
@@ -732,7 +834,7 @@
     
       <p class="text-sm text-neutral-500 dark:text-neutral-400">
           &copy;
-          2025
+          2026
           Sonic Business
       </p>
     

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Newsletter on Sonic Business Ltd</title>
+    <link>https://captain666squishy.github.io/sonicbiz/categories/newsletter/</link>
+    <description>Recent content in Newsletter on Sonic Business Ltd</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>© 2026 Sonic Business</copyright>
+    <lastBuildDate>Mon, 10 Nov 2025 10:24:01 +0000</lastBuildDate><atom:link href="https://captain666squishy.github.io/sonicbiz/categories/newsletter/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Title</title>
+      <link>https://captain666squishy.github.io/sonicbiz/blog/title/</link>
+      <pubDate>Mon, 10 Nov 2025 10:24:01 +0000</pubDate>
+      
+      <guid>https://captain666squishy.github.io/sonicbiz/blog/title/</guid>
+      <description>Hello there</description>
+      
+    </item>
+    
+  </channel>
+</rss>
