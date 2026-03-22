@@ -12,43 +12,52 @@
     {{ end }}
   {{ end }}
 
-  <section class="home-billboard">
-    <div class="home-billboard__art">
-      <img src="{{ "images/logo.jpg" | relURL }}" alt="Sonic Business logo">
-    </div>
-    <div class="home-billboard__copy">
-      <p class="module-kicker">Sonic Business Archive</p>
-      <h1>Modelo time.</h1>
-      <p>
-        A home for releases, show notes, newsletters, and the kind of scene writing that should still be readable long after the timeline moves on.
-      </p>
+  <section class="home-stage">
+    <nav class="home-navband" aria-label="Homepage sections">
+      <a href="{{ "/" | relLangURL }}">About</a>
+      <a href="{{ $blogPage.RelPermalink }}">Posts</a>
+      <a href="{{ "categories/releases/" | relURL }}">Releases</a>
+      <a href="{{ "categories/newsletter/" | relURL }}">Newsletter</a>
+      <a href="{{ "categories/shows/" | relURL }}">Shows</a>
+      <a href="#home-watch">Watch</a>
+      <a href="#home-gallery">Gallery</a>
+    </nav>
+
+    <div class="home-stage__media">
+      <div class="home-stage__frame">
+        {{ if $featuredCover }}
+          <img src="{{ $featuredCover }}" alt="{{ $featured.Params.alt | default ($featured.Title | plainify) }}">
+        {{ else }}
+          <div class="home-stage__placeholder">
+            <span>Featured visual placeholder</span>
+          </div>
+        {{ end }}
+
+        <div class="home-stage__overlay">
+          <p class="module-kicker">Sonic Business Archive</p>
+          <h1>Independent releases, newsletters, and live notes.</h1>
+          <p>
+            A durable home for scene reporting, release drops, and the material worth keeping after the feed is gone.
+          </p>
+        </div>
+      </div>
     </div>
   </section>
-
-  <!---
-  <nav class="home-navband" aria-label="Homepage sections">
-    <a href="{{ "/" | relLangURL }}">Home</a>
-    <a href="{{ $blogPage.RelPermalink }}">Posts</a>
-    <a href="{{ "categories/releases/" | relURL }}">Releases</a>
-    <a href="{{ "categories/newsletter/" | relURL }}">Newsletter</a>
-    <a href="{{ "categories/shows/" | relURL }}">Shows</a>
-    <a href="#home-watch">Watch</a>
-    <a href="#home-gallery">Gallery</a>
-  </nav>
--->
 
   <section class="home-columns">
     <div class="home-main">
       <section class="home-module home-list">
         <div class="module-bar">Most recent posts</div>
-        <ul class="home-list__items">
-          {{ range first 5 $posts }}
-            <li>
-              <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-            </li>
-          {{ end }}
-        </ul>
-        <a class="module-cta" href="{{ $blogPage.RelPermalink }}">Get more posts</a>
+        <div class="home-list__panel">
+          <ul class="home-list__items">
+            {{ range first 5 $posts }}
+              <li>
+                <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+              </li>
+            {{ end }}
+          </ul>
+          <a class="module-cta" href="{{ $blogPage.RelPermalink }}">Get more posts</a>
+        </div>
       </section>
 
       {{ with $featured }}
