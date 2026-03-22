@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700&display=swap");
 
 :root {
-  --shell-max-width: 92;
   --bg: #050505;
   --panel: #2d2b2b;
   --panel-dark: #1c1b1b;
@@ -14,7 +13,7 @@
   --accent-soft: #ffead8;
   --shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
   --radius: 0.12rem;
-  /* --site-width: 68rem; */
+  --site-width: 68rem;
 }
 
 html {
