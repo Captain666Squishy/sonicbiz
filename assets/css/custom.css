@@ -109,7 +109,7 @@ a {
 }
 
 .home-billboard__art img {
-  width: min(100%, 22rem);
+  width: min(100%, 18rem);
   display: block;
 }
 
